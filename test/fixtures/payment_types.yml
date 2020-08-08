@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+check:
+  id: 1
+  name: Check
+
+creditcard:
+  id: 2
+  name: CreditCard
+
+purchaseorder:
+  id: 3
+  name: PurchaseOrder

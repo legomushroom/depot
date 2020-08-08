@@ -1,0 +1,15 @@
+<% if line_item == @current_item %>
+    <tr class="highlight-animation">
+<% else %>
+    <tr>
+<% end %>
+    <td class="quantity"><%= line_item.quantity %></td>
+    <td class="product-name"><%= line_item.product.title %></td>
+    <td class="price"><%= number_to_currency(line_item.total_price) %></td>
+    <td class="remove-product">
+        <%= button_to "⤫", line_item_path(id: line_item.id),
+            method: :delete,
+            remote: true
+        %>
+    </td>
+</tr>

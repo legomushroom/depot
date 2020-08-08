@@ -1,0 +1,18 @@
+// Place all the styles related to the Carts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+.carts {
+    &.is-navbar {
+        color: white;
+        margin-bottom: 100px;
+    }
+    .remove-product {
+        &,
+        input[type="submit"] {
+            color: red;
+            cursor: pointer;
+        }
+    }
+}
