@@ -40,4 +40,5 @@
 yarn-debug.log*
 .yarn-integrity
 
-vendor/*
+vendor
+vendor/bundle
