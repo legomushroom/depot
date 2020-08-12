@@ -20,6 +20,7 @@
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
+/tmp/*
 !/tmp/pids/
 !/tmp/pids/.keep
 
@@ -43,3 +44,4 @@ yarn-debug.log*
 vendor
 vendor/bundle
 tmp
+/bin/
