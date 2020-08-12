@@ -3,7 +3,6 @@ class OrdersController < ApplicationController
   before_action :set_cart, only: [:new, :create]
   before_action :ensure_cart_isnt_empty, only: [:new]
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-  # before_action :set_payment_type, only: [:edit, :update, :create]
 
   # GET /orders
   # GET /orders.json
@@ -35,8 +34,10 @@ class OrdersController < ApplicationController
       if @order.save
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
+
+        ChargeOrderJob.perform_later(@order, pay_type_params.to_h)
+
         format.html { redirect_to store_index_url, notice: 'Thank you for your order' }
-        # format.html { redirect_to @order, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new }
@@ -49,6 +50,12 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1.json
   def update
     respond_to do |format|
+      puts "@order.shipped_date: #{@order.shipped_date}"
+
+      if @order.shipped_date != nil
+        OrderMailer.shipped(self).deliver_later
+      end
+
       if @order.update(order_params)
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
@@ -78,9 +85,7 @@ class OrdersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def order_params
       params.require(:order)
-        .permit(:name, :address, :email, :payment_type_id)
-
-      # params[:order][:payment_type] = PaymentType.find(params[:order][:payment_type])
+        .permit(:name, :address, :email, :payment_type_id, :shipped_date)
     end
 
     def ensure_cart_isnt_empty
@@ -89,7 +94,15 @@ class OrdersController < ApplicationController
       end
     end
 
-    # def set_payment_type
-    #   @payment_type = PaymentType.find(order_params[:order][:payment_type])
-    # end
+    def pay_type_params
+      if params[:payment_type_id] == "2"
+        params.require(:order).permit(:credit_card_number, :expiration_date)
+      elsif params[:payment_type_id] == "1"
+        params.require(:order).permit(:routing_number, :account_number)
+      elsif params[:payment_type_id] == "3"
+        params.require(:order).permit(:po_number)
+      else
+        {}
+      end
+    end
 end

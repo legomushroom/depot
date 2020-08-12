@@ -1,41 +1,19 @@
 require "application_system_test_case"
 
 class CartsTest < ApplicationSystemTestCase
-  setup do
-    @cart = carts(:one)
-  end
+  test "hiding the cart if empty" do
+    visit store_index_url
 
-  test "visiting the index" do
-    visit carts_url
-    assert_selector "h1", text: "Carts"
-  end
+    click_on 'Add to Cart', match: :first
+    click_on 'Add to Cart', match: :first
+    click_on 'Add to Cart', match: :first
 
-  test "creating a Cart" do
-    visit carts_url
-    click_on "New Cart"
+    assert_selector :css, "#checkout-button[value=Checkout]"
 
-    click_on "Create Cart"
+    click_on 'Empty cart'
 
-    assert_text "Cart was successfully created"
-    click_on "Back"
-  end
+    page.accept_alert
 
-  test "updating a Cart" do
-    visit carts_url
-    click_on "Edit", match: :first
-
-    click_on "Update Cart"
-
-    assert_text "Cart was successfully updated"
-    click_on "Back"
-  end
-
-  test "destroying a Cart" do
-    visit carts_url
-    page.accept_confirm do
-      click_on "Destroy", match: :first
-    end
-
-    assert_text "Cart was successfully destroyed"
+    assert_no_selector "#js-cart"
   end
 end

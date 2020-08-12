@@ -31,7 +31,6 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
-        puts @product.errors.full_messages
         format.html { render :new }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -51,7 +50,6 @@ class ProductsController < ApplicationController
         ActionCable.server.broadcast 'products',
           html: render_to_string('store/index', layout: false)
       else
-        puts @product.errors.full_messages
         format.html { render :edit }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end

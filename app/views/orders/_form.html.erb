@@ -27,11 +27,18 @@
   </div>
 
   <div class="field">
-    <%= form.label :payment_type %>
-    <%= form.collection_select :payment_type_id, PaymentType.order(:name), :id, :name, include_blank: true %>
+    <%= form.label :shipped_date %>
+    <%= form.text_area :shipped_date, rows: 3, columns: 40 %>
   </div>
 
-  <%# <div class="field" id="pay-type-component"></div> %>
+  <!--
+    <div class="field">
+      <%= form.label :payment_type %>
+      <%= form.collection_select :payment_type_id, PaymentType.order(:name), :id, :name, include_blank: true %>
+    </div>
+  -->
+
+  <div class="field" id="pay-type-component"></div>
 
   <div class="actions">
     <%= form.submit 'Place order' %>
