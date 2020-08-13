@@ -1,6 +1,35 @@
 <h1>Editing User</h1>
 
-<%= render 'form', user: @user %>
+<p id="notice"><%= notice %></p>
+
+<!-- <%= render 'form', user: @user %> -->
+
+<%= form_tag @user, :method => 'PUT' do %>
+    <h2>Edit user <%= @user.name %></h2>
+
+    <div class="field">
+      <%= label_tag :name, 'Name:' %>
+      <%= text_field_tag :name, @user.name %>
+    </div>
+
+    <div class="field">
+      <%= label_tag 'user[old_password]', 'Old password:' %>
+      <%= password_field_tag 'user[old_password]', '' %>
+    </div>
+
+    <div class="field">
+      <%= label_tag 'user[password]', 'New password:' %>
+      <%= password_field_tag 'user[password]', '' %>
+    </div>
+
+    <div class="field" style="display: none">
+      <%= password_field_tag 'user[id]', @user.id %>
+    </div>
+
+    <div class="actions">
+      <%= submit_tag 'Save' %>
+    </div>
+<% end %>
 
 <%= link_to 'Show', @user %> |
 <%= link_to 'Back', users_path %>

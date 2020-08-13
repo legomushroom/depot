@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  # skip_before_action :authorize
 
   # GET /users
   # GET /users.json
@@ -40,8 +41,21 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    user = User.find_by(id: user_update_params[:id])
+
+    if !user
+      raise StandardError.new "No such user found!"
+    end
+
+    old_pass = user_update_params[:old_password]
+
     respond_to do |format|
-      if @user.update(user_params)
+      unless user.authenticate(old_pass)
+        format.html { redirect_to edit_user_path(@user), notice: "Old pass is not legit!" }
+        format.json { render :show, status: :ok, location: @user }
+      end
+
+      if @user.update({ name: user.name, password: user_update_params[:password] })
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -62,6 +76,10 @@ class UsersController < ApplicationController
     end
   end
 
+  rescue_from 'User::StandardError' do |exception|
+    redirect_to users_url, notice: exception.message || 'Cannot delete the last user!'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -70,6 +88,14 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :password, :password_confirmation)
+      params.require(:user)
+        .permit(:name, :password, :password_confirmation)
+    end
+
+    def user_update_params
+      puts "params"
+      puts params
+      params.require(:user)
+        .permit(:id, :password, :old_password)
     end
 end
