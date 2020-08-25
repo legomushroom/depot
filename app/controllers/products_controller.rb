@@ -41,6 +41,22 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1.json
   def update
     respond_to do |format|
+      puts ""
+      puts ""
+      puts ""
+      puts ""
+      puts ""
+      puts ""
+      puts ""
+      puts "locale: #{product_params[:locale]}"
+      puts ""
+      puts ""
+      puts ""
+      puts ""
+      puts ""
+      puts ""
+      puts ""
+
       if @product.update(product_params)
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { render :show, status: :ok, location: @product }
@@ -85,7 +101,7 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price)
+      params.require(:product).permit(:title, :description, :image_url, :price, :locale)
     end
 
     def ensure_visits

@@ -11,12 +11,24 @@ class Product < ApplicationRecord
         message: 'Must be an image'
     }
 
-    private
-        # ensure that there are no line items referencing this product
-        def ensure_not_referenced_by_any_line_item
-            unless line_items.empty?
-                errors.add(:base, 'Line Items present')
-                throw :abort
-            end
+    # ensure that there are no line items referencing this product
+    def ensure_not_referenced_by_any_line_item
+        unless line_items.empty?
+            errors.add(:base, 'Line Items present')
+            throw :abort
         end
+    end
+
+    def local_price
+        loc = I18n.locale
+
+        rate = case loc.to_s
+        when 'es'
+            1.1
+        else
+            1
+        end
+
+        price * rate
+    end
 end

@@ -30,4 +30,61 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  store:
+    index:
+      title_html: 'Your prag frog shop'
+      add_html: 'Add to Cart'
+
+  layouts:
+    application:
+    title: 'The Pragmatic Bookshelf'
+    home: 'Home'
+    questions: 'Questions'
+    news: 'News'
+    contact: 'Contact'
+
+  carts:
+    cart:
+      title: 'Your Cart'
+      empty: 'Empty cart'
+      checkout: 'Checkout'
+
+  orders:
+    thanks: 'Thanks!'
+    new:
+      legend: "Please Enter Your Details"
+    form:
+      name: "Name"
+      address_html: "Address"
+      email: "E-mail"
+      pay_type: "Pay with"
+      pay_prompt_html: "Select a payment method"
+      submit: "Place Order"
+      pay_types:
+        check: "Check"
+        credit_card: "Credit Card"
+        purchase_order: "Purchase Order"
+      check_pay_type:
+        routing_number: "Routing #"
+        account_number: "Account #"
+      credit_card_pay_type:
+        cc_number: "CC #"
+        expiration_date: "Expiry"
+      purchase_order_pay_type:
+        po_number: "PO #"
+
+  number:
+    currency:
+      format:
+        unit: "$"
+        precision: 2
+        separator: "."
+        delimiter: ","
+        format: "%u%n"
+
+  errors:
+    template:
+      body: "This problems prevented the order to be made:"
+      header:
+        one: "1 error it was"
+        other: "%{count} errors it was"

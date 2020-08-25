@@ -18,17 +18,17 @@ class Order < ApplicationRecord
         payment_method = nil
 
         case payment_type_id
-        when 1
+        when "1"
             payment_mathod = :check
             payment_details[:routing] = pay_type_params[:routing_number]
             payment_details[:account] = pay_type_params[:account_number]
-        when 2
+        when "2"
             payment_method = :credit_card
             month, year = pay_type_params[:expiration_date].spli '//'
             payment_details[:cc_num] = pay_type_params[:credit_card_number]
             payment_details[:expiration_month] = month
             payment_details[:expiration_year] = year
-        when 3
+        when "3"
             payment_method = :po
             payment_details[:po_num] = pay_type_params[:po_number]
         end
@@ -49,8 +49,8 @@ class Order < ApplicationRecord
     private
 
     def payment_type_present()
-        pt = PaymentType.find(payment_type_id)
-    rescue ActiveRecord::RecordNotFound
-            errors.add(:payment_type, "you need to pay!")
+    #     pt = PaymentType.find(payment_type_id)
+    # rescue ActiveRecord::RecordNotFound
+    #         errors.add(:payment_type, "you need to pay!")
     end
 end

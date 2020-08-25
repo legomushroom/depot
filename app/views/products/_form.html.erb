@@ -31,6 +31,10 @@
     <%= form.text_field :price %>
   </div>
 
+  <div class="field">
+    <%= select_tag 'product[locale]', options_for_select(LANGUAGES, :locale) %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
